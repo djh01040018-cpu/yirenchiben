@@ -1,2 +1,100 @@
 # yirenchiben
 “一人持本”古籍校勘系统是基于Python3.10.14开发的windows端程序，支持在win10以上系统的电脑上进行使用，通过计算机技术实现对传统校勘学“校勘四法”中对校法的数字化转型。
+一人持本 · 古籍自動校勘系統 (Ancient Text Automatic Collation System)
+「一人持本」是一款基於 Python 開發的專業級古籍文獻自動化校勘工具。本系統旨在輔助文獻整理工作者通過數字化手段，快速識別不同版本間的文字差異，並生成符合學術規範的校勘報告。
+
+🛠 開發環境
+編程語言：Python 3.10.11
+
+圖形界面：PyQt6
+
+核心算法：Biopython (Sequence Alignment), NumPy, SciPy
+
+導出支持：python-docx, pywin32 (Microsoft Word COM 接口)
+
+✨ 核心功能
+高精度自動校勘：基於生物信息學序列比對算法，自動識別底本與校本間的「訛、脫、衍、倒、異」。
+
+異體字智能處理：內置臺灣「教育部」異體字字典數據，支持自動識別異體關係並提供正異對照預覽。
+
+形近/音近訛誤分析：
+
+形近：結合 IDS 漢字部件拆解與像素 IoU 矩陣運算，識別 OCR 視覺錯誤。
+
+音近：基於《廣韻》音系數據，分析雙聲疊韻、四聲相承等通假情況。
+
+版本源流考證：通過計算版本間的「共同訛誤」，生成親疏關係熱力圖、譜系聚類樹及親緣網絡圖。
+
+避諱字自動檢測：集成歷代避諱數據庫，自動掃描文本中可能的避諱字，並提供上下文回查。
+
+專業報告導出：支持生成帶有生僻字字體嵌入的 Excel 異文表，以及帶有專業腳註/夾注格式的 Word 定本。
+
+📦 安裝說明
+1. 獲取源代碼
+將項目克隆或解壓到本地目錄。
+
+2. 安裝依賴環境
+建議使用 venv 或 conda 創建獨立環境。在終端執行以下命令：
+
+Bash
+# 升級 pip
+python -m pip install --upgrade pip
+
+# 安裝基礎依賴
+pip install PyQt6 PyQt6-WebEngine python-docx pywin32
+
+# 安裝科學計算與算法庫
+pip install biopython numpy scipy networkx matplotlib
+
+# 安裝字典解析庫
+pip install readmdict
+3. 配置資源文件
+請確保程序根目錄下存在 resources 文件夾，並包含以下關鍵資源：
+
+variant_data.json.gz：異體字數據庫。
+
+ids.txt：漢字部件數據。
+
+taboo_data.json：避諱字數據。
+
+fonts/：存放全宋體（FSung-1至7等）字體文件，用於生僻字顯示。
+
+🚀 快速上手
+啟動程序：執行 python main.py。
+
+加載底本：點擊左側「選擇底本文件」（支持 .docx）。
+
+加載校本：在中間區域點擊「添加」，可批量導入多個校本文件。
+
+執行校勘：點擊中央紅色「開始校勘」按鈕。
+
+人工審閱：
+
+在「異文對照」查看差異。
+
+在「複雜訛誤審覈」處理大段不對齊文本。
+
+使用「版本源流考察」分析版本親疏。
+
+導出結果：在「校勘記管理」確認後，導出 Word 腳註版文稿。
+
+⚠️ 注意事項
+Word 導出：導出 Word 文檔功能依賴 Windows 系統下的 Microsoft Word 程序，MacOS/Linux 用戶僅支持 Excel 導出。
+
+生僻字顯示：若界面出現方框，請確保 resources/fonts 文件夾內已正確放置全宋體系列字體。
+
+自定義規則：若系統對特定字判定有誤，請通過右上角「自定義規則」添加 A=B（異體）或 A!=B（非異體）。
+
+📁 目錄結構預覽
+Plaintext
+.
+├── main.py                # 程序入口
+├── resources/             # 資源目錄
+│   ├── logo.ico           # 圖標
+│   ├── variant_data.json  # 異體字庫
+│   ├── ids.txt            # 部件數據
+│   ├── fonts/             # 生僻字字體庫
+│   └── GuangYun/          # 廣韻音系數據
+├── README.md              # 本說明文件
+└── requirements.txt       # 依賴清單
+開發者備註：此说明由大语言模型生成，后续将补充详细的使用说明。
